@@ -4,5 +4,5 @@ for (let i = 1; i < 9; i++) {
     const gridItem = document.createElement("div");
     gridItem.classList.add("grid-item");
     gridItem.textContent = i;
-    grid_Container.appendChild(gridItem)
+    grid_Container.appendChild(gridItem);
 }
