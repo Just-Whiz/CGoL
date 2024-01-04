@@ -1,0 +1,14 @@
+
+/* Canvas Container Alignment */
+#gameContainer {
+  text-align: center;
+}
+
+/* Border of the canvas */
+#gameBoard {
+  border: 3px solid;
+}
+
+/* Cell borders */
+
+
