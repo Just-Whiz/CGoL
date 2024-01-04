@@ -1,6 +1,7 @@
 const gameBoard = document.querySelector("#gameBoard"); // Assigns a variable defining the gameboard (the canvas)
 const ctx = gameBoard.getContext("2d"); // 
 const generationCount = document.querySelector("#generationCount"); // Assigns a variable to the generation counter
+const startStopBtn = document.querySelector("startstopBtn")
 const stepBtn = document.querySelector("stepBtn")
 const clearBtn = document.querySelector("clearBtn")
 const randomBtn = document.querySelector("randomBtn")
@@ -20,27 +21,37 @@ let initCellConfig = [ // Sets up the initial configuration of the cells as an a
     {x: unitSize, y:0},
     {x:0, y:0}
 ]
+let i = 0
+
 
 clearBtn.addEventListener("click", clearGame)
 stepBtn.addEventListener("click", stepGame)
 randomBtn.addEventListener("click", randomizeGame)
 drawBtn.addEventListener("click", drawCells)
+startStopBtn.addEventListener("click")
 
+randomCellPlacements();
+createLiveCells();
+displayLiveCells();
 gameStart();
 
 function gameStart() {};
 function nextTick() {};
 function clearBoard() {};
-function createCells() {
-    function randomizeCells(min, max) {
-        const randNum = Math.round((Math.random() * (max - min) + min))
+function randomCellPlacements() {
+    CellX = randomCell(0, gameWidth - unitSize);
+    CellY = randomCell(0, gameWidth - unitSize);
+};
+function createLiveCells() {
+    function randomizeLiveCells(min, max) {
+        const randNum = Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
         return randNum;
     };
-    foodX = rando
-
-    function randomCellPlacements() {};
-
+    randomCellPlacements()
 }; 
-function displayCells() {};
+function displayLiveCells() {
+    ctx.fillStyle = foodColor;
+    ctx.fillRect(CellX, CellY, unitSize, unitSize);
+};
 function drawGrid() {};
 function resetGame() {};
