@@ -1,6 +1,16 @@
+<!-- 
+    Program Name: Conway's Game of Life
+# Student Name: Chris Suy
+# Course: Intersession Independent Study: 
+# Advisor: Mr. Abanto
+# Date/version: 01/04/23
+# I pledge my honor
+ -->
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!--Declaring intents and purposes to the browser-->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=0">
@@ -8,13 +18,14 @@
         <link rel="stylesheet" type="text/css" href="CGoLStyles.css">
     </head>
     <body>
+        <!--HTML container that stores the generation counter and the buttons -->
         <div id="gameContainer">
             <canvas id="gameBoard" width="500" height="500"></canvas>
+            <div id="generationCount">0</div>
             <button id="startstopBtn">Start/Stop</button>
             <button id="stepBtn">Step</button>
             <button id="clearBtn">Clear/Reset</button>
             <button id="randomBtn">Random</button>
-            <div id="generationNum">0</div>
         </div>
     </body>
 </html>
