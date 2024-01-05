@@ -3,13 +3,13 @@ const canvas = document.querySelector("canvas"); // Looks for the canvas in the 
 const ctx = canvas.getContext("2d"); // Sets the canvas's perspective; in this case, rendering 2d objects.
 
 // Defines canvas properties
-const resolution = 40;
-canvas.width = 400;
-canvas.height = 400;
+const resolution = 10;
+canvas.width = 1000;
+canvas.height = 800;
 
 // Defines our column and row measures
-const columns = canvas.height / resolution; // 
-const rows = canvas.height / resolution; // 
+const COLS = canvas.width / resolution; // 
+const ROWS = canvas.height / resolution; // 
 
 // Builds the grid as an array of 0's in the console
 function buildGrid() { 
@@ -19,23 +19,22 @@ Then, it uses the .map() function to add another array on top of the columns as 
 After that, it maps another array onto the ararys to randomize the values of 
 */
     // Makes a new array of columsn filled with nothing (null)
-    return new Array(columns).fill(null)
+    return new Array(COLS).fill(null)
     // Adds another new array on top of the existing one filled with 0's without overlap
-        .map(() => new Array(rows).fill(null) 
-        .map(() => Math.floor(Math.random() * 2))); // Iterates the integers 0 & 1
+        .map(() => new Array(ROWS).fill(null) 
+            .map(() => Math.floor(Math.random() * 2))); // Iterates the integers 0 & 1
 }
 
 // Variable that stores the grid array in a variable
 let grid = buildGrid();
-
 requestAnimationFrame(update);
+console.log(grid)
 
 // Function that draws the actual grid on the canvas
 render(grid);
-setTimeout(update, 1000)
 
 function update() {
-    grid = nextGen(grid);
+    grid = nextGen(grid)
     render(grid);
     requestAnimationFrame(update);
 }
@@ -45,40 +44,36 @@ function nextGen(grid) {
 
     for (let col = 0; col < grid.length; col++) {
         for (let row = 0; row < grid[col].length; row++) {
-            const cell = grid[col][row];
-            let numNeighbors = 0;
-            
-            // Then another for loop iterates through the cells surrounding neighbors
-            // Iterates through the "x" axis of the array (the rows essentially)
-            for (let x = -1; x < 2; x++) {
-                // Iterates through the "y" axis of the array (the columns)
-                for (let y = -1; y < 2; y++) {
-                    // This code discerns "self" from other (discounting itself from the "neighbor count")
-                    if (x === 0 && y === 0) { // If the "current" coordinate of the cell are equivlant to 0,0 or itself
-                        continue; // Don't do anything and continue 
-                    }
-                    const x_cell = col + x
-                    const y_cell = row + y
-                    // Accounts for edges that the cell may try to iterate for
-                    if (x_cell >= 0 && y_cell >= 0 && x_cell < columns && y_cell < rows) {
-                        const currentNeighbor = grid[col + x][col + y]
-                        numNeighbors += currentNeighbor
-                    }
-                }
+          const cell = grid[col][row];
+          let numNeighbours = 0;
+          for (let x = -1; x < 2; x++) {
+            for (let y = -1; y < 2; y++) {
+              if (x === 0 && y === 0) {
+                continue;
+              }
+              const x_cell = col + x;
+              const y_cell = row + y;
+    
+              if (x_cell >= 0 && y_cell >= 0 && x_cell < COLS && y_cell < ROWS) {
+                const currentNeighbour = grid[col + x][row + y];
+                numNeighbours += currentNeighbour;
+              }
             }
-            // Conway's rules of life below
-            // Solitude death rule
-            if (cell === 1 && numNeighbors < 2) {
-                nextGen[col][row] = 0;
-            } else if (cell === 1 && numNeighbors > 3) {
-                nextGen[col][row] = 0;
-            } else if (cell === 0 && numNeighbors === 3) {
-                nextGen[col][row] = 1;
-            }
+          }
+    
+          // rules
+          if (cell === 1 && numNeighbours < 2) {
+            nextGen[col][row] = 0;
+          } else if (cell === 1 && numNeighbours > 3) {
+            nextGen[col][row] = 0;
+          } else if (cell === 0 && numNeighbours === 3) {
+            nextGen[col][row] = 1;
+          }
         }
-    }
-    return nextGen;
+      }
+      return nextGen;
 }
+
 
 function render(grid) {
 /* This function draws the grid and cells out and applies the logic that starts the 
@@ -109,7 +104,7 @@ Local Variables:
             // Fills in the cells with their assigned colors
             ctx.fill();
             // Renders the grid (the borders)
-            //ctx.stroke();
+            ctx.stroke();
         }
     }
 }
