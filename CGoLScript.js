@@ -13,15 +13,16 @@ const rows = canvas.height / resolution; // 400/40 = 10 rows
 
 // Builds the grid as an array of 0's in the console
 function buildGrid() { 
-/* This function returns a 
+/* This function builds the grid as an array of randomized 0's and 1's in the console.
 First, it creates the grid as an array of the value of the constant columns.
-Then, it uses the .map() function to add another array on top of 
+Then, it uses the .map() function to add another array on top of the columns as rows.
+After that, it maps another array onto the ararys to randomize the values of 
 */
     // Makes a new array of columsn filled with nothing (null)
     return new Array(columns).fill(null)
     // Adds another new array on top of the existing one filled with 0's without overlap
-        .map(() => new Array(rows).fill(null)
-        .map(() => Math.floor(Math.random() * 2)));
+        .map(() => new Array(rows).fill(null) 
+        .map(() => Math.floor(Math.random() * 2))); // Iterates the integers 0 & 1
 }
 
 // Variable that stores the grid array in a variable
@@ -48,14 +49,28 @@ function nextGen(grid) {
                     if (x === 0 && y === 0) { // If the "current" coordinate of the cell are equivlant to 0,0 or itself
                         continue; // Don't do anything and continue 
                     }
+                    const x_cell = col + x
+                    const y_cell = col + y
+
                     const currentNeighbor = grid[col + x][col + y]
                     neighborCounter += currentNeighbor
                 }
             }
             // Conway's rules of life below
-            if (cell === 1 && neighborCounter < 2) {
-                nextGen[col][row] = 0;
+            // Solitude death rule
+            if (cell === 1 && neighborCounter < 2) { // If the cell is alive and it has less than 1 neighbor 
+                nextGen[col][row] = 0; // The current cell turns "dead" (that being 0, designated by the color white)
             }
+            // Overpopulation death rule
+            else if (cell === 1 && neighborCounter > 3) { // Otherwise if hte cell is alive and it has more than 
+                nextGen[col][row] = 0; // The current cell turns "dead"
+            }
+            else if (cell === 0 && neighborCounter == 3) {
+                nextGen[col][row] = 1; // 
+            }
+            else if (cell === 1 && neighborCounter == 2 || 3) {
+                nextGen[col][row] = 1;
+            } 
         }
     }
 }
@@ -64,11 +79,6 @@ setInterval(function() {
     var x = localStorage.getItem();
     document.getElementByID().innerHTML = x;
 }, 100);
-
-
-
-
-
 
 function render(grid) {
 /* This function draws the grid and cells out and applies the logic that starts the 
