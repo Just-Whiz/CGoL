@@ -1,114 +1,13 @@
-const gameBoard = document.querySelector("#gameBoard");
-const ctx = gameBoard.getContext("2d");
-const scoreText = document.querySelector("#scoreText");
-const resetBtn = document.querySelector("#resetBtn");
-const gameWidth = gameBoard.width;
-const gameHeight = gameBoard.height;
-const boardBackground = "white";
-const gridColor = "grey";
-const snakeBorder = "black";
-const foodColor = "red";
-const unitSize = 25;
-let running = false;
-let foodX;
-let foodY;
-let score = 0;
-let snake = [
-    {x:unitSize * 4, y:0},
-    {x:unitSize * 3, y:0},
-    {x:unitSize * 2, y:0},
-    {x:unitSize, y:0},
-    {x:0, y:0}
-];
+const canvas = document.querySelector("canvas");
+const ctx = canvas.getContext("2d");
 
-window.addEventListener("keydown", changeDirection);
-resetBtn.addEventListener("click", resetGame);
+const resolution = 40;
+canvas.width = 400;
+canvas.height = 400;
 
-gameStart();
+const columns = canvas.width / resolution;
+const rows = canvas.height / resolution;
 
-function gameStart() {
-    running= true;
-    scoreText.textContent = score;
-    createFood();
-    drawFood();
-    nextTick();
-};
-function nextTick() {
-    if (running) {
-        setTimeout(() => {
-            clearBoard();
-            drawFood();
-            drawGrid();
-            checkGameOver();
-            nextTick();
-        }, 75);
-    }
-    else{
-        displayGameOver();
-    }
-};
-function clearBoard(){
-    ctx.fillStyle = boardBackground;
-    ctx.fillRect(0, 0, gameWidth, gameHeight);
-};
-function createFood(){
-    function randomFood(min, max){
-        const randNum = Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
-        return randNum;
-    }
-    foodX = randomFood(0, gameWidth - unitSize);
-    foodY = randomFood(0, gameWidth - unitSize);
-};
-function drawFood(){
-    ctx.fillStyle = foodColor;
-    ctx.fillRect(foodX, foodY, unitSize, unitSize);
-};
-
-function drawGrid(){
-    ctx.fillStyle = gridColor;
-    ctx.strokeStyle = snakeBorder;
-    snake.forEach(snakePart => {
-        ctx.fillRect(snakePart.x, snakePart.y, unitSize, unitSize);
-        ctx.strokeRect(snakePart.x, snakePart.y, unitSize, unitSize);
-    })
-};
-function checkGameOver(){
-    switch(true){
-        case (snake[0].x < 0):
-            running = false;
-            break;
-        case (snake[0].x >= gameWidth):
-            running = false;
-            break;
-        case (snake[0].y < 0):
-            running = false;
-            break;
-        case (snake[0].y >= gameHeight):
-                running = false;
-                break;
-    }
-    for(let i = 1; i < snake.length; i+=1){
-        if(snake[i].x == snake[0].x && snake[i].y == snake[0].y){
-            running = false;
-        }
-    }
-};
-function displayGameOver(){
-    ctx.font = "50px MV Boli";
-    ctx.fillStyle = "black";
-    ctx.textAlign = "center";
-    ctx.fillText("GAME OVER!", gameWidth / 2, gameHeight / 2);
-    running = false;
-};
-
-function resetGame(){
-    score = 0;
-    snake = [
-        {x:unitSize * 4, y:0},
-        {x:unitSize * 3, y:0},
-        {x:unitSize * 2, y:0},
-        {x:unitSize, y:0},
-        {x:0, y:0}
-    ];
-    gameStart();
-};
+function buildGrid() { 
+    
+}
