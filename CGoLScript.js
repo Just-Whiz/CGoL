@@ -8,8 +8,8 @@ canvas.width = 400;
 canvas.height = 400;
 
 // Defines our column and row measures
-const columns = canvas.height / resolution; // 400/40 = 10 columns
-const rows = canvas.height / resolution; // 400/40 = 10 rows
+const columns = canvas.height / resolution; // 
+const rows = canvas.height / resolution; // 
 
 // Builds the grid as an array of 0's in the console
 function buildGrid() { 
@@ -26,11 +26,19 @@ After that, it maps another array onto the ararys to randomize the values of
 }
 
 // Variable that stores the grid array in a variable
-const grid = buildGrid();
-console.log(grid)
+let grid = buildGrid();
+
+requestAnimationFrame(update);
+
 // Function that draws the actual grid on the canvas
 render(grid);
+setTimeout(update, 1000)
 
+function update() {
+    grid = nextGen(grid);
+    render(grid);
+    requestAnimationFrame(update);
+}
 
 function nextGen(grid) {
     const nextGen = grid.map(arr => [...arr]);
@@ -38,47 +46,39 @@ function nextGen(grid) {
     for (let col = 0; col < grid.length; col++) {
         for (let row = 0; row < grid[col].length; row++) {
             const cell = grid[col][row];
-            const neighborCounter = 0;
+            let numNeighbors = 0;
             
             // Then another for loop iterates through the cells surrounding neighbors
             // Iterates through the "x" axis of the array (the rows essentially)
             for (let x = -1; x < 2; x++) {
                 // Iterates through the "y" axis of the array (the columns)
-                for (let y = -1; y < 2; j++) {
+                for (let y = -1; y < 2; y++) {
                     // This code discerns "self" from other (discounting itself from the "neighbor count")
                     if (x === 0 && y === 0) { // If the "current" coordinate of the cell are equivlant to 0,0 or itself
                         continue; // Don't do anything and continue 
                     }
                     const x_cell = col + x
-                    const y_cell = col + y
-
-                    const currentNeighbor = grid[col + x][col + y]
-                    neighborCounter += currentNeighbor
+                    const y_cell = row + y
+                    // Accounts for edges that the cell may try to iterate for
+                    if (x_cell >= 0 && y_cell >= 0 && x_cell < columns && y_cell < rows) {
+                        const currentNeighbor = grid[col + x][col + y]
+                        numNeighbors += currentNeighbor
+                    }
                 }
             }
             // Conway's rules of life below
             // Solitude death rule
-            if (cell === 1 && neighborCounter < 2) { // If the cell is alive and it has less than 1 neighbor 
-                nextGen[col][row] = 0; // The current cell turns "dead" (that being 0, designated by the color white)
-            }
-            // Overpopulation death rule
-            else if (cell === 1 && neighborCounter > 3) { // Otherwise if hte cell is alive and it has more than 
-                nextGen[col][row] = 0; // The current cell turns "dead"
-            }
-            else if (cell === 0 && neighborCounter == 3) {
-                nextGen[col][row] = 1; // 
-            }
-            else if (cell === 1 && neighborCounter == 2 || 3) {
+            if (cell === 1 && numNeighbors < 2) {
+                nextGen[col][row] = 0;
+            } else if (cell === 1 && numNeighbors > 3) {
+                nextGen[col][row] = 0;
+            } else if (cell === 0 && numNeighbors === 3) {
                 nextGen[col][row] = 1;
-            } 
+            }
         }
     }
+    return nextGen;
 }
-
-setInterval(function() {
-    var x = localStorage.getItem();
-    document.getElementByID().innerHTML = x;
-}, 100);
 
 function render(grid) {
 /* This function draws the grid and cells out and applies the logic that starts the 
