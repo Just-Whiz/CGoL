@@ -15,16 +15,18 @@ Bro Code: https://www.youtube.com/watch?v=Je0B3nHhKmM&ab_channel=BroCode
      <meta charset="UTF-8">
      <meta http-equiv="X-UA-Compatible" content="IE=edge">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <
      <title>CSUY26 CGoL</title>
-     <link rel="stylesheet" href="CGoLStyles.css">
  </head>
  <body>
      <div id="gameContainer">
-         <canvas></canvas>
-         <div id="generationCounter">0</div>
+        <canvas id="gameBoard"></canvas>
+        <div id="generationCounter">0</div>
+         <button id="startPauseBtn">Start</button>
+         <button id="stepBtn">Step</button>
          <button id="resetBtn">Reset</button>
+         <button id="clearBtn">Clear</button>
      </div>
      <script src="CGoLScript.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
  </body>
  </html>
