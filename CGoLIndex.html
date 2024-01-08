@@ -21,7 +21,11 @@ Bro Code: https://www.youtube.com/watch?v=Je0B3nHhKmM&ab_channel=BroCode
     <h1>Conway's Game of Life</h1>
      <div id="gameContainer">
         <canvas></canvas>
-        <div id="generationCounter">0</div>
+        <p>Generation:</p><div id="generationCounter">0</div>
+        <div class="slideContainer">
+            <p>Slide to speed up or slow down the delay between generations</p>
+            <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+        </div>
      </div>
      <script src="CGoLScript.js"></script>
  </body>

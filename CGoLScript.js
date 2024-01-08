@@ -19,20 +19,24 @@ var gameRunning = true
 
 // Temporary variable that stores the first array arrangement in a variable
 let grid = assembleGrid();
-requestAnimationFrame(update); // Requests 
+// Requests the next arrangement of the array on the grid
+requestAnimationFrame(update); 
+// Displays the array of the values in the console
 console.log(grid)
 
-// Function that draws the grid on the canvas
+// Function that draws the first (initial) grid on the canvas
 render(grid);
 
+
+// Simple function that gets the (newest) grid and draws it on the canvas
 function update() {
     grid = step(grid)
     render(grid);
 }
 
-
-
+// Timer that delays the update function for 0.1s
 setInterval(function() {
+  // Otherwise, if false, then don't run the function
   if (gameRunning === true) {
     update()
   }
@@ -51,24 +55,36 @@ between 0 and 1. It then returns the
     return new Array(COLS).fill(null)
     // Adds another new array on top of the existing one filled with 0's without overlap
         .map(() => new Array(ROWS).fill(null) 
-            .map(() => Math.floor(Math.random() * 2))); // Iterates the integers 0 & 1
+            // Uses Math.random and multiplies the randomly chosen decimal value by two and floors it to round it to the nearest value (0 or 1)
+            .map(() => Math.floor(Math.random() * 2))); 
 }
 
 function step(grid) {
-/* This function */
+/* This function transfers the grid from one state to the next, and returns the newest "current" state.
+First, 
+*/
 
 // The constant value for the "step" the grid takes from the old grid to the new one
   const step = grid.map(arr => [...arr]);
 
+  // Two nested for loops that build cells within each column and row
   for (let col = 0; col < grid.length; col++) {
       for (let row = 0; row < grid[col].length; row++) {
+
+        // Sets up each cell within the grid's column and row measures
         const cell = grid[col][row];
+        // Sets up the neighbor counter for each cell
         let numNeighbours = 0;
+
+        // Two nested for loops that sense the cells around them and discount the cell being checked
         for (let x = -1; x < 2; x++) {
           for (let y = -1; y < 2; y++) {
+            // If the cell is checking itself, discount it from the neighbor count and continue
             if (x === 0 && y === 0) {
               continue;
             }
+
+            // Sets 
             const x_cell = col + x;
             const y_cell = row + y;
   
@@ -79,7 +95,8 @@ function step(grid) {
           }
         }
   
-        // Conway's Rules of Life
+        // Conway's rules of Life
+
         // Solitude death Rule
         if (cell === 1 && numNeighbours < 2) {
           step[col][row] = 0;
