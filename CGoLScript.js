@@ -18,25 +18,18 @@ const running = true;
 var gameRunning = true
 
 // Sets up the variables for the slider
-var slider = document.getElementById("speedSlider");
-var tickDelay = 0;
-var output = document.getElementById("speedCounter");
 var generationNum = 0;
-
-output.innerHTML = slider.value;
 
 // Makes & displays the grid
 let grid = assembleGrid(); // Temporary variable that stores the first array arrangement in a variable
+let slider = document.getElementById("slider");
+slider.onchange = function() {
+  tickDelay = slider.value;
+  console.log(tickDelay);
+}
 requestAnimationFrame(update); // Requests the next arrangement of the array on the grid
 console.log(grid)
 render(grid); // Function that draws the first (initial) grid on the canvas
-
-/*if you want it real-time, you can do this: 
-setInterval(function() {
-  a = slider.value;
-  dispDiv.innerHTML = "the js variable 'a' currently = " + a;
-}, 100)
-*/
 
 // Simple function that gets the (newest) grid and draws it on the canvas
 function update() {
@@ -44,13 +37,9 @@ function update() {
     render(grid);
 }
 
-
-slider.oninput = function() {
-  output.innerHTML = this.value;
-}
-
+var tickDelay = slider.value;
 // Timer that delays the update function for 0.1s
-setInterval(function(tickDelay) {
+setInterval(function() {
   // Otherwise, if false, then don't run the function
   if (gameRunning === true) {
     update()
