@@ -17,6 +17,11 @@ const running = true;
 // Sets the game running to true on start
 var gameRunning = true
 
+var slider = document.getElementById("speedSlider");
+var output = document.getElementById("generationCounter");
+var tickDelay = 100;
+output.innerHTML = slider.value;
+
 // Temporary variable that stores the first array arrangement in a variable
 let grid = assembleGrid();
 // Requests the next arrangement of the array on the grid
@@ -34,13 +39,18 @@ function update() {
     render(grid);
 }
 
+slider.oninput = function() {
+  output.innerHTML = this.value;
+}
+
 // Timer that delays the update function for 0.1s
 setInterval(function() {
   // Otherwise, if false, then don't run the function
   if (gameRunning === true) {
     update()
+    generationNum += 1
   }
-}, 100);
+}, tickDelay);
 
 
 function assembleGrid() { 
@@ -88,6 +98,7 @@ First,
             const x_cell = col + x;
             const y_cell = row + y;
   
+            // 
             if (x_cell >= 0 && y_cell >= 0 && x_cell < COLS && y_cell < ROWS) {
               const currentNeighbour = grid[col + x][row + y];
               numNeighbours += currentNeighbour;
