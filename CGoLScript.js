@@ -3,11 +3,11 @@ const canvas = document.querySelector("canvas"); // Looks for the canvas in the 
 const ctx = canvas.getContext("2d"); // Sets the canvas's perspective; in this case, rendering 2d objects.
 
 // Defines canvas resolution
-const resolution = 10;
+const resolution = 20;
 
 // Deifnes the canvas's width & length in pixels
-canvas.width = 1000;
-canvas.height = 1000;
+canvas.width = 2000;
+canvas.height = 2000;
 
 // Sets the value of the column and row measures 
 const COLS = canvas.width / resolution; 
@@ -22,13 +22,8 @@ var generationNum = 0;
 
 // Makes & displays the grid
 let grid = assembleGrid(); // Temporary variable that stores the first array arrangement in a variable
-let slider = document.getElementById("slider");
-slider.onchange = function() {
-  tickDelay = slider.value;
-  console.log(tickDelay);
-}
 requestAnimationFrame(update); // Requests the next arrangement of the array on the grid
-console.log(grid)
+console.log(grid) // Draws the grid in the console to display
 render(grid); // Function that draws the first (initial) grid on the canvas
 
 // Simple function that gets the (newest) grid and draws it on the canvas
@@ -37,15 +32,13 @@ function update() {
     render(grid);
 }
 
-var tickDelay = slider.value;
-// Timer that delays the update function for 0.1s
 setInterval(function() {
   // Otherwise, if false, then don't run the function
   if (gameRunning === true) {
     update()
     generationNum += 1
   }
-}, tickDelay);
+}, 100);
 
 
 function assembleGrid() { 
