@@ -17,7 +17,7 @@ const running = true;
 // Sets the game running to true on start
 var gameRunning = true
 
-// Sets up the variables for the slider
+// Sets up the generation counter
 var generationNum = 0;
 
 // Makes & displays the grid
@@ -30,15 +30,17 @@ render(grid); // Function that draws the first (initial) grid on the canvas
 function update() {
     grid = step(grid)
     render(grid);
+    generationNum += 1; // Adds 1 to the current generation number (the current generation number)
 }
 
 setInterval(function() {
   // Otherwise, if false, then don't run the function
   if (gameRunning === true) {
-    update()
-    generationNum += 1
+    update() // Run the update funtion 
   }
-}, 100);
+}, 100); // 100 refers to 100 ticks (milliseconds)
+
+
 
 
 function assembleGrid() { 
@@ -51,7 +53,7 @@ between 0 and 1. It then returns the
 */
     // Makes a new array of columsn filled with nothing (null)
     return new Array(COLS).fill(null)
-    // Adds another new array on top of the existing one filled with 0's without overlap
+    // Adds another new array on top of the existing one filled with nothing (null)
         .map(() => new Array(ROWS).fill(null) 
             // Uses Math.random and multiplies the randomly chosen decimal value by two and floors it to round it to the nearest value (0 or 1)
             .map(() => Math.floor(Math.random() * 2))); 
@@ -136,12 +138,12 @@ function render(grid) {
               ctx.beginPath();
               // Draws rectangles around everything (each cell present in each column, and each row) and a rectangle around the entirety of the canvas
               ctx.rect(col * resolution, row * resolution, resolution, resolution);
-              // 
+              // Checks if a cell is "true" or "false" (alive or dead)
               ctx.fillStyle = cell ? "black" : "white";
               // Fills in the cells with their assigned colors
               ctx.fill();
               // Renders the grid (the borders)
-              //ctx.stroke();
+              ctx.stroke();
         }
     }
 }
