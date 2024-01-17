@@ -40,7 +40,26 @@ setInterval(function() {
   }
 }, 100); // 100 refers to 100 ticks (milliseconds)
 
+function stepGrid(grid) {
+  document.querySelector("#stepButton")
+  onclick = function () {
+  
+  }
+}
 
+function resetGrid() {
+  document.querySelector("#resetButton")
+  onclick = function () {
+
+  }
+}
+
+function playPause() {
+  document.querySelector("#pauseResumeButtton")
+  onclick = function () {
+    
+  }
+}
 
 
 function assembleGrid() { 
