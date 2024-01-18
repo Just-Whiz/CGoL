@@ -3,11 +3,11 @@ const canvas = document.querySelector("canvas"); // Looks for the canvas in the 
 const ctx = canvas.getContext("2d"); // Sets the canvas's perspective; in this case, rendering 2d objects.
 
 // Defines canvas resolution
-const resolution = 20;
+const resolution = 10;
 
 // Deifnes the canvas's width & length in pixels
-canvas.width = 2000;
-canvas.height = 2000;
+canvas.width = 100;
+canvas.height = 100;
 
 // Sets the value of the column and row measures 
 const COLS = canvas.width / resolution; 
@@ -40,27 +40,36 @@ setInterval(function() {
   }
 }, 100); // 100 refers to 100 ticks (milliseconds)
 
-function stepGrid(grid) {
-  document.querySelector("#stepButton")
-  onclick = function () {
-  
-  }
+// Function linked to the corresponding front-end button that "steps" the grid
+function stepGrid() {
+  step(grid);
+  requestAnimationFrame(update)
+  render(grid);
 }
 
+// Function linked to the corresponding front-end button that "resets" the grid (makes a new pattern)
 function resetGrid() {
-  document.querySelector("#resetButton")
-  onclick = function () {
-
+  document.querySelector("#resetButton").
+  onclick = function() {
+    grid = assembleGrid(true);
+    requestAnimationFrame(update);
+    console.log(grid);
+    render(grid);
   }
 }
 
+// Pauses and resumes the game when clicked
 function playPause() {
-  document.querySelector("#pauseResumeButtton")
-  onclick = function () {
-    
+  gameRunning = !gameRunning;
+  if (gameRunning) {
+    document.getElementById("pauseResumeButton").innerHTML = "Pause";
+    document.getElementById("stepButton").style.display = "none";
+  } else {
+    document.getElementById("pauseResumeButton").innerHTML = "Resume";
+    document.getElementById("stepButton").style.display = "inline-block";
   }
+  render(grid)
 }
-
 
 function assembleGrid() { 
 /* This function builds the initial array of randomized 0's and 1's that will be the 

@@ -18,12 +18,14 @@ Bro Code: https://www.youtube.com/watch?v=Je0B3nHhKmM&ab_channel=BroCode
      <title>CSUY26 CGoL</title>
  </head>
  <body>
-    <h1>Conway's Game of Life</h1>
+    <h1 id="title">Conway's Game of Life</h1>
     <canvas></canvas>
     <h2>Generation Number: <span id="genNumber"></span></h2>
-    <button id="stepButton" style="display: None" onclick="stepGrid()"></button>"
-    <button id="pauseResumeButton" onclick="playPause()"></button>
-    <button id="resetButton" onclick="resetGrid"></button>
+    <div id="mySidenav" class="sidenav">
+        <button id="pauseResumeButton" onclick="playPause()">Pause</button>
+        <button id="stepButton" style="display: None" onclick="stepGrid()">Step</button>
+        <button id="resetButton" onclick="resetGrid()">Reset</button>
+    </div>
      <script src="CGoLScript.js"></script>
  </body>
  </html>
