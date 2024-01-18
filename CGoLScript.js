@@ -3,11 +3,11 @@ const canvas = document.querySelector("canvas"); // Looks for the canvas in the 
 const ctx = canvas.getContext("2d"); // Sets the canvas's perspective; in this case, rendering 2d objects.
 
 // Defines canvas resolution
-const resolution = 10;
+const resolution = 20;
 
 // Deifnes the canvas's width & length in pixels
-canvas.width = 100;
-canvas.height = 100;
+canvas.width = 1000;
+canvas.height = 1000;
 
 // Sets the value of the column and row measures 
 const COLS = canvas.width / resolution; 
@@ -20,41 +20,66 @@ var gameRunning = true
 // Sets up the generation counter
 var generationNum = 0;
 
+// Reset counter set to true
+genReset = true;
+
 // Makes & displays the grid
-let grid = assembleGrid(); // Temporary variable that stores the first array arrangement in a variable
-requestAnimationFrame(update); // Requests the next arrangement of the array on the grid
-console.log(grid) // Draws the grid in the console to display
-render(grid); // Function that draws the first (initial) grid on the canvas
+// Temporary variable that stores the first array arrangement in a variable
+let grid = assembleGrid(); 
+// Requests the next arrangement of the array on the grid
+requestAnimationFrame(update); 
+// Draws the grid in the console to display
+console.log(grid)
+// Function that draws the first (initial) grid on the canvas
+render(grid); 
 
 // Simple function that gets the (newest) grid and draws it on the canvas
 function update() {
     grid = step(grid)
     render(grid);
-    generationNum += 1; // Adds 1 to the current generation number (the current generation number)
+    // Adds 1 to the current generation number
+    generationNum += 1; 
+    // Updates the span element in the HTML with the id "genNumber" to the current generation number
+    document.getElementById("genNumber").innerHTML = generationNum;
 }
 
+
 setInterval(function() {
+  /* This function delays the calling of the update function while the gameRunning variable is true.
+  The delay is 100 JS ticks (100 ms) */
+
   // Otherwise, if false, then don't run the function
   if (gameRunning === true) {
-    update() // Run the update funtion 
+    // Run the update funtion if true
+    update();
   }
-}, 100); // 100 refers to 100 ticks (milliseconds)
+  // 100 refers to 100 ticks (milliseconds)
+}, 100); 
 
 // Function linked to the corresponding front-end button that "steps" the grid
 function stepGrid() {
   step(grid);
-  requestAnimationFrame(update)
+  requestAnimationFrame(update);
   render(grid);
 }
 
 // Function linked to the corresponding front-end button that "resets" the grid (makes a new pattern)
 function resetGrid() {
-  document.querySelector("#resetButton").
-  onclick = function() {
+  /* This function resets the board back to a new randomized array pattern for the board to then evolve.
+  First, it waits for the HTML button with the id "#resetButton" to be pressed. When it detects it's been clicked,
+  it activates another inner function that assembles a new grid, renders it, transitions it to its next state, logs it in the console as complete,
+  and then displays the next states in following succession. */
+
+  // When the button with the corresponding ID is pressed, activate this specific inner function
+  document.querySelector("#resetButton").onclick = function() {
+    // The grid is reassembled (a new randomized array is created)
     grid = assembleGrid(true);
+    // 
     requestAnimationFrame(update);
     console.log(grid);
     render(grid);
+    generationNum = 0;
+    document.getElementById("genNumber").innerHTML = generationNum
   }
 }
 
@@ -77,8 +102,8 @@ function assembleGrid() {
 First, it creates the grid as an array of the value of the constant columns.
 Then, it uses the built-in .map() method/function to add another array on top of the columns as rows.
 After that, it maps another array onto the 2 existing arrays to randomize the values of the array 
-between 0 and 1. It then returns the 
-*/
+between 0 and 1. It then returns the array as an array of multiple manipulated arrays. */
+
     // Makes a new array of columsn filled with nothing (null)
     return new Array(COLS).fill(null)
     // Adds another new array on top of the existing one filled with nothing (null)
@@ -88,8 +113,9 @@ between 0 and 1. It then returns the
 }
 
 function step(grid) {
-/* This function transfers the grid from one state to the next, and returns the newest "current" state.
-First, 
+/* This function transfers the grid from one state to the next, and returns the newest processed state.
+First, it creates cells as a part of every space within every column and every row, and gives the dimensions
+as measures of 
 */
 
 // The constant value for the "step" the grid takes from the old grid to the new one
