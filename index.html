@@ -1,13 +1,10 @@
 <!-- 
 # Program Name: Conway's Game of Life
 # Student Name: Chris Suy
-# Course: Intersession Independent Study: 
+# Course: Intersession Independent Study: Computer Science Principles (Leveraging Conway's Game of Life as a Learning tool)
 # Advisor: Mr. Abanto
 # Date/version: 01/04/23
 # I pledge my honor
-
-RESOURCES USED:
-Bro Code: https://www.youtube.com/watch?v=Je0B3nHhKmM&ab_channel=BroCode
  -->
  <!DOCTYPE html>
  <html lang="en">
@@ -22,6 +19,8 @@ Bro Code: https://www.youtube.com/watch?v=Je0B3nHhKmM&ab_channel=BroCode
     <h1 id="title">Conway's Game of Life</h1>
     <h2>Generation Number: <span id="genNumber"></span></h2>
     <div id="mySidenav" class="sidenav">
+        <!--Buttons and their corresponding actions (JS or otherwise) modeled off of the codpen found here by Joris van de Donk:
+        https://codepen.io/jorisvddonk/pen/AXJjwG?editors=1010-->
         <button id="pauseResumeButton" onclick="playPause()">Pause</button>
         <button id="stepButton" style="display: None" onclick="stepGrid()">Step</button>
         <button id="resetButton" onclick="resetGrid()">Reset</button>
