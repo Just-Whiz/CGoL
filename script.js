@@ -128,14 +128,32 @@ function resetGrid() {
 
 // Pauses and resumes the game when clicked
 function playPause() {
+  /* This function pauses and resumes the game when clicked. 
+  Two buttons are hidden for different reasons while the game is running. The first is the step button. Only when paused will the button be 
+  allowed to be shown, and its function be run. Otherwise, if the game is running, you are not able to "step". When the game is running, the 
+  color inversion button pops up as the color inversion can only be rendered while the game is running and updating. Otherwise, if the game is paused,
+  then the option to toggle between dark and light colors will not be available due to the inability to update instantaneously. */
+
+  // Toggles between true and false of the gameRunning variable with the ! operator
   gameRunning = !gameRunning;
+  // If gameRunning is true
   if (gameRunning) {
+    // Change the text of the pause/resume button to say pause
     document.getElementById("pauseResumeButton").innerHTML = "Pause";
+    // hide the step button from the buttons
     document.getElementById("stepButton").style.display = "none";
+    // Display the color inversion button from the buttons options
+    document.getElementById("toggleColors").style.display = "inline-block";
+    // Otherwise execute this
   } else {
+    // Change the text of the pause/resume button to say resume
     document.getElementById("pauseResumeButton").innerHTML = "Resume";
+    // Display the step button in the same "line" style as the other buttons
     document.getElementById("stepButton").style.display = "inline-block";
+    // Hide the color inversion button from the buttons options
+    document.getElementById("toggleColors").style.display = "none";
   }
+  // Render the grid by calling the render function for the grid
   render(grid);
 }
 
