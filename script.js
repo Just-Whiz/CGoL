@@ -53,6 +53,8 @@ var generationNum = 0;
 // Reset counter set to true
 genReset = true;
 
+var colorInversion = true;
+
 // Makes & displays the grid
 // Temporary variable that stores the first array arrangement in a variable
 let grid = assembleGrid(); 
@@ -62,6 +64,10 @@ requestAnimationFrame(update);
 console.log(grid)
 // Function that draws the first (initial) grid on the canvas
 render(grid); 
+
+function toggleCellColors() {
+  colorInversion = !colorInversion;
+}
 
 // Simple function that gets the (newest) grid and draws it on the canvas
 function update() {
@@ -108,12 +114,15 @@ function resetGrid() {
   document.querySelector("#resetButton").onclick = function() {
     // The grid is reassembled (a new randomized array is created)
     grid = assembleGrid(true);
-    // 
+    // Requests the canvas to animate the following argument (the update function)
     requestAnimationFrame(update);
+    // Log/display the built grid in the console
     console.log(grid);
+    // Render the grid
     render(grid);
+    // Reset the generation counter in the HTML and JS
     generationNum = 0;
-    document.getElementById("genNumber").innerHTML = generationNum
+    document.getElementById("genNumber").innerHTML = generationNum;
   }
 }
 
@@ -127,7 +136,7 @@ function playPause() {
     document.getElementById("pauseResumeButton").innerHTML = "Resume";
     document.getElementById("stepButton").style.display = "inline-block";
   }
-  render(grid)
+  render(grid);
 }
 
 function assembleGrid() { 
@@ -243,11 +252,15 @@ function render(grid) {
               // Draws rectangles around everything (each cell present in each column, and each row) and a rectangle around the entirety of the canvas
               ctx.rect(col * resolution, row * resolution, resolution, resolution);
               // Checks if a cell is "true" or "false" (alive or dead)
-              ctx.fillStyle = cell ? "black" : "white";
+              if (colorInversion === true) {
+                ctx.fillStyle = cell ? "black" : "white";
+              } else {
+                ctx.fillStyle = cell ? "white" : "black";
+              }
               // Fills in the cells with their assigned colors
               ctx.fill();
-              // Renders the grid (the borders)
-              ctx.stroke();
+              // Renders the grid borders (commented out for aesthetic purposes)
+              //ctx.stroke();
         }
     }
-}
+  }
