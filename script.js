@@ -28,9 +28,11 @@ Stack Overflow links:
 Adding a delay to a funciton being constantly called: https://stackoverflow.com/questions/14226803/wait-5-seconds-before-executing-next-line
 */
 
-// Defines the canvas
-const canvas = document.querySelector("canvas"); // Looks for the canvas in the HTML
-const ctx = canvas.getContext("2d"); // Sets the canvas's perspective; in this case, rendering 2d objects.
+// Looks for the canvas in the HTML as a constant value
+const canvas = document.querySelector("canvas"); 
+
+// Defines the canvas as a constant variable and sets the canvas's perspective to render 2-dimensional objects
+const ctx = canvas.getContext("2d"); 
 
 // Defines canvas resolution
 const resolution = 20;
@@ -39,10 +41,11 @@ const resolution = 20;
 canvas.width = 1000;
 canvas.height = 1000;
 
-// Sets the value of the column and row measures 
+// Sets the value of the column and row measures as the measures of canvas.width and canvas.height divided by the canvas's resolution
+// 1000 / 20 = 50 columns
 const COLS = canvas.width / resolution; 
+// 1000 / 20 = 50 rows
 const ROWS = canvas.height / resolution; 
-const running = true;
 
 // Sets the game running to true on start
 var gameRunning = true
@@ -53,6 +56,7 @@ var generationNum = 0;
 // Reset counter set to true
 genReset = true;
 
+// Sets up the color inversion checker to a TRUE state whenever the code is run for the first time
 var colorInversion = true;
 
 // Makes & displays the grid
@@ -66,12 +70,16 @@ console.log(grid)
 render(grid); 
 
 function toggleCellColors() {
+  /* This function simply toggles between TRUE/FAlsE state of the colorInversion variable when called.*/
   colorInversion = !colorInversion;
 }
 
-// Simple function that gets the (newest) grid and draws it on the canvas
 function update() {
+  /* This function gets the newest grid and draws it on the canvas. It does not return any values, only completes a simple algorithm when called.*/
+
+    // Updates the grid to its next current state
     grid = step(grid)
+    // Render the grid by calling the render function for the grid
     render(grid);
     // Adds 1 to the current generation number
     generationNum += 1; 
@@ -93,8 +101,17 @@ setInterval(function() {
 
 // Function linked to the corresponding front-end button that "steps" the grid
 function stepGrid() {
+  /* This function "steps" the grid forward in time by one generation. 
+  First, it calls the "step" function to update and get the next iteration of the board. Once it does, the JS tells the browser to call a 
+  specific function and update the animation for the next canvas "drawing". Once done calling the updating function (conveniently named update),
+  it then renders the grid using the render(grid) function to draw the current iteration of the canvas once processed.
+  */
+
+  // Updates the grid to its next current state
   step(grid);
+  // Tells the canvas to get ready to redraw/re-render the next updated values on the canvas's display
   requestAnimationFrame(update);
+  // Render the grid by calling the render function for the grid
   render(grid);
 }
 
@@ -112,7 +129,7 @@ function resetGrid() {
 
   // When the button with the corresponding ID is pressed, activate this specific inner function
   document.querySelector("#resetButton").onclick = function() {
-    // The grid is reassembled (a new randomized array is created)
+    // The grid is reassembled (a new randomized array is created) and its state is set to true
     grid = assembleGrid(true);
     // Requests the canvas to animate the following argument (the update function)
     requestAnimationFrame(update);
@@ -122,6 +139,7 @@ function resetGrid() {
     render(grid);
     // Reset the generation counter in the HTML and JS
     generationNum = 0;
+    // Changes the text of the generation number counter in the HTML to be updated to the current number of the generationNum variable
     document.getElementById("genNumber").innerHTML = generationNum;
   }
 }
@@ -132,13 +150,18 @@ function playPause() {
   Two buttons are hidden for different reasons while the game is running. The first is the step button. Only when paused will the button be 
   allowed to be shown, and its function be run. Otherwise, if the game is running, you are not able to "step". When the game is running, the 
   color inversion button pops up as the color inversion can only be rendered while the game is running and updating. Otherwise, if the game is paused,
-  then the option to toggle between dark and light colors will not be available due to the inability to update instantaneously. */
+  then the option to toggle between dark and light colors will not be available due to the inability to update instantaneously. 
+  
+  Global Variables
+  gameRunning - A variable that is toggled between TRUE and FALSE states to determine if the game is paused or not
+  grid - Temporary variable that stores the constantly updating states of the grid of the Game of Life
+  */
 
   // Toggles between true and false of the gameRunning variable with the ! operator
   gameRunning = !gameRunning;
   // If gameRunning is true
   if (gameRunning) {
-    // Change the text of the pause/resume button to say pause
+    // Change the text of the pause/resume button in the HTML to say pause
     document.getElementById("pauseResumeButton").innerHTML = "Pause";
     // hide the step button from the buttons
     document.getElementById("stepButton").style.display = "none";
@@ -163,7 +186,12 @@ function assembleGrid() {
 First, it creates the grid as an array of the value of the constant columns.
 Then, it uses the built-in .map() method/function to add another array on top of the columns as rows.
 After that, it maps another array onto the 2 existing arrays to randomize the values of the array 
-between 0 and 1. It then returns the array as an array of multiple manipulated arrays. */
+between 0 and 1. It then returns the array as an array of multiple manipulated arrays. 
+
+Global Variables: 
+ROWS - A value that defines the amount of rows present in the grid
+COLS - A value that defines the amount of columns present in the grid
+*/
 
     // Makes a new array of columsn filled with nothing (null)
     return new Array(COLS).fill(null)
@@ -176,15 +204,34 @@ between 0 and 1. It then returns the array as an array of multiple manipulated a
 function step(grid) {
 /* This function transfers the grid from one state to the next, and returns the newest processed state.
 First, it creates cells as a part of every space within every column and every row, and gives the dimensions
-as measures of the col and row values. 
-
+as measures of the col and row values. It takes in the variable grid as an argument in order to transfer the first 
+iteration of the grid to the next in order to update it according to the rules of Life.
 
 SOURCES USED:
 // 2D Array traversal source: https://www.geeksforgeeks.org/how-to-traverse-2d-arrays-in-javascript/#
 .map() method function source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
 Cell Detection Algorithm reference source: https://stackoverflow.com/questions/3330181/algorithm-for-finding-nearest-object-on-2d-grid
 2D out of bounds prevention reference source: https://stackoverflow.com/questions/15004992/getting-the-edge-value-of-a-2d-array-while-preventing-getting-out-of-bounds
-*/
+
+Local Variables:
+
+step - Defines the next state of the grid (taking the next "current" grid by overwriting the old grid values with the new values)
+col - Defines the columns as being the length of the grid
+row - Defines the rows as being the length of the columns of the grid
+cell - Defines each value in the array as a "cell" variable
+neighborCount - Defines the counter for a cell's current amount of live neighors in its "local neighborhood" (the 8 cells surrounding the current cell)
+x - Defines the temporary variable for each cell that defines its current miniature coordinate plane on the x-axis (its local neighborhood of cells, with the current cell at (0,0))
+y - Defines the temporary variable for each cell that defines its current miniature coordinate plane on the y-axis (its local neighborhood of cells, with the current cell at (0,0))
+x_cell - Defines the constant directional vector that scans the x-axis of the "current" cell's local neighborhood for live neighbors
+y_cell - Defines the constant directional vector that scans the y-axis of the "current" cell's local neighborhood for live neighbors
+currentNeighbor - A constant value that grabs the current neighbor by moving each directional vector around by -1 while each vector (x and y) are less than 2
+
+Global Variables:
+
+ROWS - A value that defines the amount of rows present in the grid
+COLS - A value that defines the amount of columns present in the grid
+grid - Temporary variable that stores the constantly updating states of the grid of the Game of Life
+*/ 
 
 // The constant value for the "step" the grid takes from the old grid to the new one
   const step = grid.map(arr => [...arr]);
@@ -197,12 +244,13 @@ Cell Detection Algorithm reference source: https://stackoverflow.com/questions/3
         // Sets the neighbor count to 0
         let neighborCount = 0;
         // Two nested for loops that sense the cells around them and finds the current cell
-        // Looping through all cells relative to the current x position while x < 2
+        // Looping through all cells relative to the current x position while x < 2 in the current local cell's "neighborhood"
         for (let x = -1; x < 2; x++) {
-          // Loop through all cells relative to the current y position while y < 2
+          // Loop through all cells relative to the current y position while y < 2 in the current local cell's "neighborhood"
           for (let y = -1; y < 2; y++) {
             // If the cell is checking itself, discount it from the neighbor count and continue
             if (x === 0 && y === 0) {
+              // Carry on with the other instructions present in the loop
               continue;
             }
 
@@ -212,9 +260,9 @@ Cell Detection Algorithm reference source: https://stackoverflow.com/questions/3
             // Directional y vector
             const y_cell = row + y;
   
-            // Checks if the cell that we're currently checking is outside of the domain (on an edge)
+            // Checks if the cell that we're currently checking is outside of the domain (on an edge AKA if the cell is checking an area "out of bounds")
             if (x_cell >= 0 && y_cell >= 0 && x_cell < COLS && y_cell < ROWS) {
-              // Create a constant value that "grabs" the current neighbor
+              // Create a constant value that "grabs" the current neighbor by moving the vectors around each time the for loop is run
               const currentNeighbour = grid[col + x][row + y];
               // Adds the neighboring cell to the count
               neighborCount += currentNeighbour;
@@ -222,24 +270,28 @@ Cell Detection Algorithm reference source: https://stackoverflow.com/questions/3
           }
         }
   
-        // Conway's rules of Life
+        // Conway's Rules of Life defined below:
+        // Note the survivability rule is 
 
         // Solitude death Rule
-        // If a cell is alive (1)
+        // If a cell is alive and has less than 2 neighbors
         if (cell === 1 && neighborCount < 2) {
+          // On the next state of the board, turn the cell dead (by solitude)
           step[col][row] = 0;
         // Overpopulation death rule
-        // If the cell has more than 3 neighbors
+        // If the cell is alive and has more than 3 neighbors (by overpopulation)
         } else if (cell === 1 && neighborCount > 3) {
+          // On the next state of the board, turn the cell dead
           step[col][row] = 0;
         // Birth rule
-        // If the cell has exactly three neighbors
+        // If the cell is dead and has exactly three neighbors
         } else if (cell === 0 && neighborCount === 3) {
+          // On the next state of the board, turn the cell alive (as if by birth, or reproduction)
           step[col][row] = 1;
         }
       }
     }
-    // Returns the step variable once all the logic has been run through
+    // Returns the next state of the board in a variable
     return step; 
 }
 
@@ -256,6 +308,16 @@ function render(grid) {
   SOURCES USED:
 
   Canvas methods, functions, and references: https://www.w3schools.com/jsref/api_canvas.asp
+
+  Local Variables: 
+
+  col - Defines the columns as being the length of the grid
+  row - Defines the rows as being the length of the columns of the grid
+
+  Global Variables:
+  ctx - Defines the HTML canvas value as a JS value
+  grid - Temporary variable that stores the constantly updating states of the grid of the Game of Life
+  colorInversion - A variable that is toggled between TRUE and FALSE states to determine the color of the current cells on the board
   */
   
       // For loop that iterates through all the columns as long as col is equal to 0
@@ -269,10 +331,14 @@ function render(grid) {
               ctx.beginPath();
               // Draws rectangles around everything (each cell present in each column, and each row) and a rectangle around the entirety of the canvas
               ctx.rect(col * resolution, row * resolution, resolution, resolution);
-              // Checks if a cell is "true" or "false" (alive or dead)
+
+              // Checks if a cell is "true" or "false" (alive or dead) and changes/inverts the colors of the cell based on a variable state
+              // If the colorInversion variable is toggled to a TRUE state
               if (colorInversion === true) {
+                // Let the colors of each cell while alive to be black, and those dead to be white
                 ctx.fillStyle = cell ? "black" : "white";
               } else {
+                // Let the colors of each cell while alive to be white, and those dead to be black
                 ctx.fillStyle = cell ? "white" : "black";
               }
               // Fills in the cells with their assigned colors
