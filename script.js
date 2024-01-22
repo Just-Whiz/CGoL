@@ -3,7 +3,7 @@ Program name: Conway's Game of Life JS
 Student Name: Christian Suy
 # Course: Intersession Independent Study: Computer Science Principles (Leveraging Conway's Game of Life as a Learning tool)
 # Advisor: Mr. Abanto
-# Date/version: 01/18/23
+# Date/version: 01/18/24
 # I pledge my honor
 
 ALL REFERENCE SOURCES USED LINKED BELOW:
@@ -25,7 +25,7 @@ https://www.w3schools.com/js/js_htmldom_html.asp
 
 
 Stack Overflow links:
-Adding a delay to a funciton being constantly called: https://stackoverflow.com/questions/14226803/wait-5-seconds-before-executing-next-line
+Adding a delay to a function being constantly called: https://stackoverflow.com/questions/14226803/wait-5-seconds-before-executing-next-line
 */
 
 // Looks for the canvas in the HTML as a constant value
@@ -37,7 +37,7 @@ const ctx = canvas.getContext("2d");
 // Defines canvas resolution
 const resolution = 20;
 
-// Deifnes the canvas's width & length in pixels
+// Defines the canvas's width & length in pixels
 canvas.width = 1000;
 canvas.height = 1000;
 
@@ -93,7 +93,7 @@ setInterval(function() {
 
   // Otherwise, if false, then don't run the function
   if (gameRunning === true) {
-    // Run the update funtion if true
+    // Run the update function if true
     update();
   }
   // 100 refers to 100 ticks (milliseconds)
@@ -193,7 +193,7 @@ ROWS - A value that defines the amount of rows present in the grid
 COLS - A value that defines the amount of columns present in the grid
 */
 
-    // Makes a new array of columsn filled with nothing (null)
+    // Makes a new array of columns filled with nothing (null)
     return new Array(COLS).fill(null)
     // Adds another new array on top of the existing one filled with nothing (null)
         .map(() => new Array(ROWS).fill(null) 
@@ -219,7 +219,7 @@ step - Defines the next state of the grid (taking the next "current" grid by ove
 col - Defines the columns as being the length of the grid
 row - Defines the rows as being the length of the columns of the grid
 cell - Defines each value in the array as a "cell" variable
-neighborCount - Defines the counter for a cell's current amount of live neighors in its "local neighborhood" (the 8 cells surrounding the current cell)
+neighborCount - Defines the counter for a cell's current amount of live neighbors in its "local neighborhood" (the 8 cells surrounding the current cell)
 x - Defines the temporary variable for each cell that defines its current miniature coordinate plane on the x-axis (its local neighborhood of cells, with the current cell at (0,0))
 y - Defines the temporary variable for each cell that defines its current miniature coordinate plane on the y-axis (its local neighborhood of cells, with the current cell at (0,0))
 x_cell - Defines the constant directional vector that scans the x-axis of the "current" cell's local neighborhood for live neighbors
