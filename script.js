@@ -127,8 +127,6 @@ function resetGrid() {
   requestAnimationFrame() method: https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
   */
 
-  // When the button with the corresponding ID is pressed, activate this specific inner function
-  document.querySelector("#resetButton").onclick = function() {
     // The grid is reassembled (a new randomized array is created) and its state is set to true
     grid = assembleGrid(true);
     // Requests the canvas to animate the following argument (the update function)
@@ -142,7 +140,6 @@ function resetGrid() {
     // Changes the text of the generation number counter in the HTML to be updated to the current number of the generationNum variable
     document.getElementById("genNumber").innerHTML = generationNum;
   }
-}
 
 // Pauses and resumes the game when clicked
 function playPause() {
