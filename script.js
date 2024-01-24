@@ -35,7 +35,7 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d"); 
 
 // Defines canvas resolution
-const resolution = 20;
+const resolution = 10;
 
 // Defines the canvas's width & length in pixels
 canvas.width = 1000;
