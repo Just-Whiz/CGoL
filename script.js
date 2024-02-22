@@ -293,7 +293,7 @@ grid - Temporary variable that stores the constantly updating states of the grid
 }
 
 function render(grid) {
-  /* This function draws the grid and cells out and applies the logic that starts the 
+  /* This function draws the grid and cells out and applies the logic that starts the grid.
   First, the grid is defined through a for loop and iterate through to create all columns and rows presently seen.
   It then creates cells within the confines of the rows and columns. After creating the cells,
   we create x and y coordinates that are run through a for loop within each cell individual cell
